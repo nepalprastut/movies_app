@@ -1,0 +1,19 @@
+{% extends 'movies_app/base.html' %}
+{% block title %}HomePage{% endblock %}
+{% block content %}
+<body>
+    {% if user.is_authenticated %}
+        <ul>
+            <li><h2>Welcome to the Movies App where you can search for movies and add them on your watchlist. </h2></li>
+            <li><h2>Also, place your honest reviews on the movies you've watched to help other users make a decision. </h2></li>
+
+        </ul>
+    {% else %}
+        <ul>
+            <li><h2>Welcome to the Movies App where you can search for movies and add them on your watchlist. </h2></li>
+            <li><h2>Also, place your honest reviews on the movies you've watched to help other users make a decision. </h2></li>
+            <li><h3><p>Create an account to get started. <a href="/register"><u>Register</u></a></p></h3></li>
+        </ul>
+    {% endif %}
+</body>
+{% endblock %}

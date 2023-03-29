@@ -1,0 +1,111 @@
+
+{% extends 'movies_app/base.html' %}
+
+{% block title %}Movies{% endblock %}
+
+{% block content %}
+<div class="movie-search-form">
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="query" placeholder="Search movies...">
+    <button type="submit">Search</button>
+  </form>
+</div>
+  <div class="movies">
+    {% for result in results %}
+      <div class="movie">
+        <div class="movie-card">
+          <div class="movie-card__poster">
+            <img src="https://image.tmdb.org/t/p/w500/{{ result.poster_path }}" alt="{{ result.title }} poster">
+          </div>
+          <div class="movie-card__content">
+            <h2 class="movie-card__title">{{ result.title }}</h2>
+            <div class="movie-card__synopsis">{{ result.overview }}</div>
+          </div>
+        </div>
+        <form action="/search" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="movie" value="{{ result.title }}">
+          <input type="submit" value="Add To Watchlist">
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+  <style>
+h1 {text-align: center;}
+.movies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.movie {
+  margin: 10px;
+  text-align: center;
+}
+
+.movie-card {
+  position: relative;
+  display: inline-block;
+  width: 250px;
+  height: 375px;
+}
+
+.movie-card__poster {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.movie-card__poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.movie-card:hover .movie-card__poster img {
+  transform: scale(1.1);
+}
+
+.movie-card__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.movie-card:hover .movie-card__content {
+  opacity: 1;
+}
+
+.movie-card__title {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.movie-card__synopsis {
+  margin-top: 10px;
+}
+
+.movie-search-form {
+    display: flex;
+    align-items: end;
+    justify-content: flex-end;
+}
+
+.movie-search-form input[type="text"], .movie-search-form button[type="submit"] {
+    margin-left: 10px;
+}
+
+</style>
+{% endblock %}

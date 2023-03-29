@@ -1,0 +1,10 @@
+{% extends 'movies_app/base.html' %}
+{% block title %}Sign Up{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}{{form|crispy}} <!-- form is a variable that is passed into this template and crispy makes the form look pretty-->
+<p>Already have an account? <a href="/login"> <b><u>Login</u></b></a></p>
+<button type="submit" class="btn btn-success">Sign Up</button>
+</form>
+{% endblock %}

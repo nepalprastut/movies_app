@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Movies App</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <style>
+    		.footer {
+			margin-top: 50px;
+			text-align: center;
+			font-size: 14px;
+			color: #666;
+		}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default">
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">MoviesApp </a></li>
+          <li><a href="/movies">Movies </a></li>
+          <li><a href="/watchlist">Watchlist </a></li>
+          <li><a href="/reviews">Reviews </a></li>
+          <li><a href="/search">Search </a></li>
+        </ul>
+        <div class="user-auth">
+        <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <span class="navbar-text">|{{user.username}}|</span>
+                <li><a href="/logout">Logout </a></li>
+                {% else %}
+                <li><a href="/login">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+          <!-- <li><a href="/register">Login</a></li>
+          <li><a href="#">Logout </a></li> -->
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <div class="footer">
+		<p>&copy; <span id="currentYear"></span> All rights reserved.</p>
+	</div>
+
+	<script>
+		document.getElementById("currentYear").innerHTML = new Date().getFullYear();
+	</script>
+</body>
+</html>
