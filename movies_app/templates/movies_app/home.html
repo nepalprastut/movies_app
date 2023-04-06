@@ -4,8 +4,8 @@
 <body>
     {% if user.is_authenticated %}
         <ul>
-            <li><h2>Welcome to the Movies App where you can search for movies and add them on your watchlist. </h2></li>
-            <li><h2>Also, place your honest reviews on the movies you've watched to help other users make a decision. </h2></li>
+            <li><h2>Welcome <u><i>{{user.username}}!</i></u> Discover great movies and add them to your watchlist. </h2></li>
+            <li><h2>Also, place your reviews on the movies you've watched to help other users make a decision. </h2></li>
 
         </ul>
     {% else %}

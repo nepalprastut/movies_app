@@ -2,6 +2,40 @@
 
 {% block title %}Watchlist{% endblock %}
 {% block content %}
-Your watchlist will be added here. Stay tuned...
+<h3><center><strong><p>{{user.username}}'s Watchlist</p></strong></center></h3>
 
+{% comment %} {% for list_item in movies %}
+<ol>
+    <li>{{forloop.counter}}.{{ list_item }}</li>
+</ol>
+{% endfor %} {% endcomment %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">S.N</th>
+            <th scope="col">Movie Name</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for list_item in movies %}
+        <tr>
+            <th scope="row">{{forloop.counter}}.</th>
+            <td>{{ list_item }}</td>
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="movie_id" value="{{ list_item.id }}">
+                    <button type="submit" class="btn btn-danger">Remove from Watchlist</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<style>
+    h1 {
+        margin-bottom: 50px;
+    }
+</style>
 {% endblock %}

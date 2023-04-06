@@ -6,8 +6,10 @@ from django.contrib.auth.decorators import login_required
 import requests
 from .models import Review, WatchList, Movie
 
+
 def home(request):
     return render(request, 'movies_app/home.html')
+
 
 
 def register(request):
@@ -22,6 +24,7 @@ def register(request):
         else:
             form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 
 @login_required(login_url='/login')
@@ -42,7 +45,6 @@ def movies(request):
         title = Movie(title=movie)
         title.save()
         watchlist.movies.add(title)
-
         return render(request, 'movies_app/movies.html', {'movies': movies})
 
     return render(request, 'movies_app/movies.html', {'movies': movies})
@@ -57,11 +59,28 @@ def movie_search(request):
         response = requests.get(url)
         results = response.json()['results']
         context = {'results': results, 'query': query}
+        # user = request.user
+        # movie = request.POST.get('movie')
+        # to check if watchlist button is clicked
+        if 'add_to_watchlist' in request.POST:
+            user = request.user
+            movie = request.POST.get('movie')
+
+            # Get the user's watchlist or create a new one if it doesn't exist
+            watchlist, created = WatchList.objects.get_or_create(user=user)
+
+            # Create a new movie object and add it to the user's watchlist
+            title = Movie(title=movie)
+            title.save()
+            watchlist.movies.add(title)
+
         return render(request, 'movies_app/search.html', context)
     
     else:
         return render(request, 'movies_app/search.html')
     
+
+
 
 
 @login_required(login_url='/login')
@@ -78,6 +97,20 @@ def reviews(request):
     return render(request, 'movies_app/reviews.html', {'form': form})
 
 
+
 @login_required(login_url='/login')
 def watchlist(request):
-    return render(request, 'movies_app/watchlist.html')
+    user = request.user
+    movies_list = WatchList.objects.filter(user=user).first()
+    
+    if movies_list is not None:
+        movies = movies_list.movies.all()
+    else:
+        movies = []
+
+    if request.method == 'POST':
+        movie_id = request.POST.get('movie_id')
+        movie_obj = Movie.objects.get(id=movie_id)
+        movies_list.movies.remove(movie_obj)
+
+    return render(request, 'movies_app/watchlist.html', {'movies': movies})
