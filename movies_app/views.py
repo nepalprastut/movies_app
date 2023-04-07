@@ -45,6 +45,7 @@ def movies(request):
         title = Movie(title=movie)
         title.save()
         watchlist.movies.add(title)
+        messages.success(request, 'Movie Added to Watchlist.')
         return render(request, 'movies_app/movies.html', {'movies': movies})
 
     return render(request, 'movies_app/movies.html', {'movies': movies})
